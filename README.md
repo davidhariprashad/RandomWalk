@@ -1,2 +1,2 @@
 # RandomWalk
-Random walk simulations from two different courses.
+[CSCI 370 - Software Engineering] Use multiple threads on the school server to simulate random walks in parallel.
