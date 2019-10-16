@@ -136,13 +136,13 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	auto sec = timer<std::chrono::nanoseconds>(
+	auto ns = timer<std::chrono::nanoseconds>(
 		walk<unsigned int>,
 		argv[1]);
 
-	std::cout << "Total nanoseconds: " << sec << '\n';
-	std::cout << "Total seconds: " << (static_cast<double>(sec) / 1000000000) << '\n';
-	std::cout << "Average nanoseconds per walk: " << (static_cast<double>(sec) / M) << '\n';
+	std::cout << "Total nanoseconds: " << ns << '\n';
+	std::cout << "Total seconds: " << (static_cast<double>(ns) / 1000000000) << '\n';
+	std::cout << "Average nanoseconds per walk: " << (static_cast<double>(ns) / M) << '\n';
 
 	return EXIT_SUCCESS;
 }
