@@ -41,8 +41,7 @@ void worker_function(std::vector<IntegerType>& vec, int walks, int start, int up
 	static_assert(std::is_integral<IntegerType>::value,
 		"Requires integral type.");
 
-	auto e = std::default_random_engine();
-	e.seed(std::random_device()());
+	auto e = std::default_random_engine(std::random_device()());
 	auto d = std::uniform_int_distribution<unsigned int>(0,1);
 
 	int x;
@@ -106,11 +105,11 @@ void walk(const char* filename)
 	std::fill(histogram.begin(), histogram.end(), static_cast<IntegerType>(0));
 	for (auto& w : workers)
 	{
-		auto x = w.second.cbegin();
 		auto h = histogram.begin();
-		for (; x != w.second.cend(); ++x, ++h)
+		for (const auto& x : w.second)
 		{
-			*h += *x;
+			*h += x;
+			++h;
 		}
 	}
 
