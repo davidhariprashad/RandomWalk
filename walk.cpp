@@ -2,6 +2,8 @@
 g++ -std=c++11 -Wextra -pedantic -O3 -lpthread -o walk walk.cpp
 */
 
+#include "timer.hpp"
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -118,16 +120,6 @@ void walk(const char* filename)
 	return;
 }
 
-template <typename Duration, typename Callable, typename ... Args>
-unsigned long long timer(Callable&& f, Args ... args)
-{
-	auto t0 = std::chrono::steady_clock::now();
-
-	f(std::forward<Args>(args) ...);
-
-	return (std::chrono::duration_cast<Duration>(std::chrono::steady_clock::now() - t0).count());
-}
-
 int main(int argc, char** argv)
 {
 	if (argc != 2)
@@ -136,9 +128,7 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	auto ns = timer<std::chrono::nanoseconds>(
-		walk<unsigned int>,
-		argv[1]);
+	auto ns = timer::nanoseconds(walk<unsigned int>, argv[1]);
 
 	std::cout << "Total nanoseconds: " << ns << '\n';
 	std::cout << "Total seconds: " << (static_cast<double>(ns) / 1000000000) << '\n';
