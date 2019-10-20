@@ -128,7 +128,7 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	auto ns = timer::nanoseconds(walk<unsigned int>, argv[1]);
+	auto ns = elapsed_nanoseconds(walk<unsigned int>, argv[1]);
 
 	std::cout << "Total nanoseconds: " << ns << '\n';
 	std::cout << "Total seconds: " << (static_cast<double>(ns) / 1000000000) << '\n';

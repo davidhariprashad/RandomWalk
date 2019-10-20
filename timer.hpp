@@ -5,45 +5,39 @@
 #include <utility>
 #include <cstdint>
 
-namespace timer
+template <typename Callable, typename ... Args>
+std::chrono::nanoseconds elapsed_duration(Callable&& f, Args&& ... args)
 {
-
-template <typename Duration, typename Callable, typename ... Args>
-Duration duration(Callable&& f, Args&& ... args)
-{
-	auto begin = std::chrono::steady_clock::now();
+	const auto begin = std::chrono::steady_clock::now();
 	f(std::forward<Args>(args) ...);
-	return std::chrono::duration_cast<Duration>(std::chrono::steady_clock::now() - begin);
+	return (std::chrono::steady_clock::now() - begin);
 }
 
 template <typename Callable, typename ... Args>
-uint64_t seconds(Callable&& f, Args&& ... args)
+int64_t elapsed_seconds(Callable&& f, Args&& ... args)
 {
-	typedef std::chrono::seconds Period;
-	return timer::duration<Period>(std::forward<Callable>(f), std::forward<Args>(args) ...).count();
+	return std::chrono::duration_cast<std::chrono::seconds>(elapsed_duration(
+		std::forward<Callable>(f), std::forward<Args>(args) ...)).count();
 }
 
 template <typename Callable, typename ... Args>
-uint64_t microseconds(Callable&& f, Args&& ... args)
+int64_t elapsed_microseconds(Callable&& f, Args&& ... args)
 {
-	typedef std::chrono::microseconds Period;
-	return timer::duration<Period>(std::forward<Callable>(f), std::forward<Args>(args) ...).count();
+	return std::chrono::duration_cast<std::chrono::microseconds>(elapsed_duration(
+		std::forward<Callable>(f), std::forward<Args>(args) ...)).count();
 }
 
 template <typename Callable, typename ... Args>
-uint64_t milliseconds(Callable&& f, Args&& ... args)
+int64_t elapsed_milliseconds(Callable&& f, Args&& ... args)
 {
-	typedef std::chrono::milliseconds Period;
-	return timer::duration<Period>(std::forward<Callable>(f), std::forward<Args>(args) ...).count();
+	return std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_duration(
+		std::forward<Callable>(f), std::forward<Args>(args) ...)).count();
 }
 
 template <typename Callable, typename ... Args>
-uint64_t nanoseconds(Callable&& f, Args&& ... args)
+int64_t elapsed_nanoseconds(Callable&& f, Args&& ... args)
 {
-	typedef std::chrono::nanoseconds Period;
-	return timer::duration<Period>(std::forward<Callable>(f), std::forward<Args>(args) ...).count();
+	return (elapsed_duration(std::forward<Callable>(f), std::forward<Args>(args) ...)).count();
 }
-
-} // namespace timer
 
 #endif
